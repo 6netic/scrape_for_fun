@@ -54,7 +54,7 @@ class Book():
 		""" This method gives information on a book """
 
 		outputToFile = []
-		# Only one page case
+		# Case with one page
 		if pageBooksNumber < 2:
 			urlModified = url + "index.html"
 			# Page des résultats des pages scrapées
@@ -63,14 +63,13 @@ class Book():
 
 			outputToFile = self.getInfosOnBooks(booksUrl, category, outputToFile)
 
-		# Several pages case
+		# Case with several pages
 		else:			
 			for i in range(1, pageBooksNumber + 1):
 				urlModified = url + "page-{}.html".format(i)
-				# Page des résultats des pages scrapées
+				# Scraped pages
 				scraped = self.scrapeUrl(urlModified)				
-				booksUrl = scraped.find_all('h3')
-				
+				booksUrl = scraped.find_all('h3')				
 				outputToFile = self.getInfosOnBooks(booksUrl, category, outputToFile)
 
 		return outputToFile
