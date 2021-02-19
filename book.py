@@ -1,4 +1,5 @@
 import requests
+import lxml
 from bs4 import BeautifulSoup
 from math import ceil
 
@@ -16,8 +17,21 @@ class Book():
 		""" This methods counts the number of pages found for this category """
 
 		html = requests.get(url).content
-		scraped = BeautifulSoup(html, 'html.parser')
+		scraped = BeautifulSoup(html, "lxml")
+		
 		return scraped
+
+
+	def categoriesOfBooks(self, scraped):
+		""" This method finds all available categories of books on this website """
+
+		catList = []
+		categories = scraped.select("li", limit=53)
+		# categories of books are ranged from cat[3] to cat[53]
+		for i in range(3, 53):	
+			catList.append("https://books.toscrape.com/" + categories[i].a['href'])
+		
+		return catList
 
 
 	def countPages(self, scraped):
